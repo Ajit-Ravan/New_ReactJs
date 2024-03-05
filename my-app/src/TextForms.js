@@ -21,7 +21,7 @@ export default function TextForms(props) {
         setText(event.target.value);
         console.log("on change function");
     }
-    const [text, setText] = useState("Enter the text modify: ");
+    const [text, setText] = useState("");
     // setText("this is new text from settext");
   // console.log(text);
   
@@ -32,21 +32,24 @@ export default function TextForms(props) {
   return (
     <>
     <div>
-          <h1>{props.heading}</h1>
+        <h1>{props.heading}</h1>
         <div className="mb-3">
-              <label htmlFor="exampleFormControlTextarea1" className="form-label">{props.heading}</label>
-                <textarea className="form-control" id="exampleFormControlTextarea1" rows="3" value={text} onChange={handleOnChange}></textarea>
+          <label htmlFor="exampleFormControlTextarea1" className="form-label">{props.heading}</label>
+          <textarea className="form-control" id="exampleFormControlTextarea1" rows="3" value={text} onChange={handleOnChange}></textarea>
         </div>
-      <button className="btn btn-primary mx-2" onClick={handleUpClick}>To uppercase</button>
-      <button className="btn btn-primary mx-2" onClick={handleToLowClick}>To Lowercase</button>
-      <button type="button" class="btn btn-secondary mx-2" onClick={handleDelete}>Delete Content</button>
-
+        <button className="btn btn-primary mx-2" onClick={handleUpClick}>To uppercase</button>
+        <button className="btn btn-primary mx-2" onClick={handleToLowClick}>To Lowercase</button>
+        <button type="button" class="btn btn-secondary mx-2" onClick={handleDelete}>Delete Content</button>
       </div>
+
       <div className="container my-4">
         <h1>Yout Text Summary</h1>
         <p>{text.split(" ").length} words and {text.length} characters</p>
         <p>{ 0.008*text.split(" ").length} minutes reading</p>
-        </div>
+      </div>
+      
+        <h1>Preview :</h1>
+        <p>{text}</p>
       </>
   )
 }
