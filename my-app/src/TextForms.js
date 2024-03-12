@@ -7,28 +7,38 @@ export default function TextForms(props) {
     console.log("upper case was clicked " + text);
     // setText("You clicked on the button handleUpClick");
     //CONVERTING TO UPPERCASE
-    let upperText = text.toUpperCase();
-    setText(upperText);
+    // let upperText = text.toUpperCase();
+    // setText(upperText);
+    //we  use showAlert function from app.js here to add the alert if lower case
+    props.showAlert("Converted to Upper Case", "success");
   }
+
   const handleToLowClick = () => {
     console.log("lower case was clicked " + text);
     // setText("You clicked on the button handleUpClick");
     //CONVERTING TO UPPERCASE
-    let lowerText = text.toLowerCase();
-    setText(lowerText);
+    // let lowerText = text.toLowerCase();
+    // setText(lowerText);
+    //we  use showAlert function from app.js here to add the alert if lower case
+    props.showAlert("Converted to Lower case", "warning");
   };
+
   const handleOnChange = (event) => {
     setText(event.target.value);
     console.log("on change function");
   }
+
   const [text, setText] = useState("");
   // setText("this is new text from settext");
   // console.log(text);
 
   const handleDelete = () => {
     setText("");
-    console.log("content has been deleted");
+    // console.log("content has been deleted");
+    //we  use showAlert function from app.js here to show alert message when text deleted
+    props.showAlert("Deleted the content", "danger");
   }
+
   return (
     <>
       <div className='container' style={{ color: props.mode === 'dark' ? 'white' : 'black' }}>
