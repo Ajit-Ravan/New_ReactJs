@@ -2,6 +2,7 @@ import "./App.css";
 
 import React from "react";
 import PropTypes from "prop-types";
+import { Link } from 'react-router-dom';
 function Navbar(props) {
   return (
     <>
@@ -32,9 +33,11 @@ function Navbar(props) {
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">
+                {/* <a className="nav-link" href="#">
                   {props.link}
-                </a>
+                </a> */}
+                {/* Instead of above code we use below code in react for rendering */}
+                <Link className='nav-link' to='About'> About</Link>
               </li>
               <li className="nav-item dropdown">
                 <a

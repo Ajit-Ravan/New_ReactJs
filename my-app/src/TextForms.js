@@ -7,8 +7,8 @@ export default function TextForms(props) {
     console.log("upper case was clicked " + text);
     // setText("You clicked on the button handleUpClick");
     //CONVERTING TO UPPERCASE
-    // let upperText = text.toUpperCase();
-    // setText(upperText);
+    let upperText = text.toUpperCase();
+    setText(upperText);
     //we  use showAlert function from app.js here to add the alert if lower case
     props.showAlert("Converted to Upper Case", "success");
   }
@@ -17,8 +17,8 @@ export default function TextForms(props) {
     console.log("lower case was clicked " + text);
     // setText("You clicked on the button handleUpClick");
     //CONVERTING TO UPPERCASE
-    // let lowerText = text.toLowerCase();
-    // setText(lowerText);
+    let lowerText = text.toLowerCase();
+    setText(lowerText);
     //we  use showAlert function from app.js here to add the alert if lower case
     props.showAlert("Converted to Lower case", "warning");
   };
@@ -50,16 +50,16 @@ export default function TextForms(props) {
               onChange={handleOnChange} style={{ backgroundColor: props.mode === 'dark' ? 'grey' : 'white', color: props.mode === 'dark' ? 'white' : 'black' }}></textarea>
           </div>
 
-          <button className="btn btn-primary mx-2" onClick={handleUpClick}>To uppercase</button>
-          <button className="btn btn-primary mx-2" onClick={handleToLowClick}>To Lowercase</button>
+          <button className="btn btn-primary mx-3 my-3" onClick={handleUpClick}>To uppercase</button>
+          <button className="btn btn-primary mx-3 my-3" onClick={handleToLowClick}>To Lowercase</button>
           <button type="button" className="btn btn-secondary mx-2" onClick={handleDelete}>Delete Content</button>
 
         </div>
 
         <div className="container my-4" style={{ color: props.mode === 'dark' ? 'white' : 'black' }}>
           <h1>Yout Text Summary</h1>
-          <p>{text.split(" ").length} words and {text.length} characters</p>
-          <p>{0.008 * text.split(" ").length} minutes reading</p>
+          <p>{text.split(" ").filter((element) => { return element.length != 0; }).length} words and {text.length} characters</p>
+          <p>{0.008 * text.split(" ").filter((element) => { return element.length != 0; }).length} minutes reading</p>
 
           <h1>Preview :</h1>
           <p>{text.length > 0 ? text : "Enter the text:"}</p>
