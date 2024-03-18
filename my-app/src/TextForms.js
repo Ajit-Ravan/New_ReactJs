@@ -43,26 +43,26 @@ export default function TextForms(props) {
     <>
       <div className='container' style={{ color: props.mode === 'dark' ? 'white' : 'black' }}>
         <div>
-          <h1>{props.heading}</h1>
+          <h1 className='mb-2'>{props.heading}</h1>
           <div className="mb-3">
-            <label htmlFor="exampleFormControlTextarea1" className="form-label">{props.heading}</label>
+            {/* <label htmlFor="exampleFormControlTextarea1" className="form-label">{props.heading}</label> */}
             <textarea className="form-control" id="exampleFormControlTextarea1" rows="3" value={text}
               onChange={handleOnChange} style={{ backgroundColor: props.mode === 'dark' ? 'grey' : 'white', color: props.mode === 'dark' ? 'white' : 'black' }}></textarea>
           </div>
 
-          <button className="btn btn-primary mx-3 my-3" onClick={handleUpClick}>To uppercase</button>
-          <button className="btn btn-primary mx-3 my-3" onClick={handleToLowClick}>To Lowercase</button>
-          <button type="button" className="btn btn-secondary mx-2" onClick={handleDelete}>Delete Content</button>
+          <button disabled={text.length === 0} className="btn btn-primary mx-3 my-3" onClick={handleUpClick}>To uppercase</button>
+          <button disabled={text.length === 0} className="btn btn-primary mx-3 my-3" onClick={handleToLowClick}>To Lowercase</button>
+          <button disabled={text.length === 0} type="button" className="btn btn-secondary mx-2" onClick={handleDelete}>Delete Content</button>
 
         </div>
 
         <div className="container my-4" style={{ color: props.mode === 'dark' ? 'white' : 'black' }}>
           <h1>Yout Text Summary</h1>
-          <p>{text.split(" ").filter((element) => { return element.length != 0; }).length} words and {text.length} characters</p>
-          <p>{0.008 * text.split(" ").filter((element) => { return element.length != 0; }).length} minutes reading</p>
+          <p>{text.split(" ").filter((element) => { return element.length !== 0; }).length} words and {text.length} characters</p>
+          <p>{0.008 * text.split(" ").filter((element) => { return element.length !== 0; }).length} minutes reading</p>
 
           <h1>Preview :</h1>
-          <p>{text.length > 0 ? text : "Enter the text:"}</p>
+          <p>{text.length > 0 ? text : "Nothing to preview!"}</p>
 
         </div>
       </div>

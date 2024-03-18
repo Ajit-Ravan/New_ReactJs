@@ -37,14 +37,14 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={
+        <Route exact path='/' element={
           <>
             <Navbar title="Desi QnA" link="links" mode={mode} toggleMode={toggleMode} />
             <Alert alert={alert} />
-            <TextForms showAlert={showAlert} heading="Enter the text to modify: " mode={mode} />
+            <TextForms showAlert={showAlert} heading="Desi QnA - Word counter, character counter, time counter" mode={mode} />
           </>
         } />
-        <Route path='About' element={
+        <Route path='/About' element={
           <>
             <Navbar title="Desi QnA" link="links" mode={mode} toggleMode={toggleMode} />
             <Alert alert={alert} />

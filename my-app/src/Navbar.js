@@ -2,7 +2,7 @@ import "./App.css";
 
 import React from "react";
 import PropTypes from "prop-types";
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 function Navbar(props) {
   return (
     <>
@@ -28,16 +28,17 @@ function Navbar(props) {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#">
+                {/* <a className="nav-link active" aria-current="page" href="#">
                   Home
-                </a>
+                </a> */}
+                <NavLink className="nav-link active" to='/'>Home</NavLink>
               </li>
               <li className="nav-item">
                 {/* <a className="nav-link" href="#">
                   {props.link}
                 </a> */}
                 {/* Instead of above code we use below code in react for rendering */}
-                <Link className='nav-link' to='About'> About</Link>
+                <NavLink className='nav-link' to='/About'> About</NavLink>
               </li>
               <li className="nav-item dropdown">
                 <a
