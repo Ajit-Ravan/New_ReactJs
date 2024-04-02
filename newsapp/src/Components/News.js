@@ -345,7 +345,10 @@ export default class News extends Component {
                   title={element.title ? element.title.slice(0, 40) : ""}
                   description={element.description ? element.description.slice(0, 80) : ""}
                   ImageUrl={element.urlToImage}
-                  newsUrl={element?.url} />
+                  newsUrl={element?.url}
+                  author={element.author}
+                  date={element.publishedAt}
+                  source={element.source.name} />
               </div>
             )
           })}
