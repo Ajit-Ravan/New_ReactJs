@@ -290,39 +290,44 @@ export default class News extends Component {
   //adding new function for the removing duplication of the code
 
   async updateNews() {
+    this.props.setProgress(0);
     console.log("Inside updatenews function.");
     let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=a1948327a12b4813a181ce04818350d0&page=${this.state.page}&pageSize=${this.props.pageSize}`;
     this.setState({ loading: true });
     //fetching data from url 
     let data = await fetch(url);
+    this.props.setProgress(30);
     //converting data into json data
     let parseData = await data.json();
     console.log(parseData);
+    this.props.setProgress(70);
     //setting state ,setting articles
     this.setState({
       articles: parseData.articles,
       totalResults: parseData.totalResults,
       loading: false
     });
+    this.props.setProgress(100);
 
   }
 
   // componentDidMount
   async componentDidMount() {
-    console.log("Inside componentDidMount.");
-    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=a1948327a12b4813a181ce04818350d0&page=${this.state.page}&pageSize=${this.props.pageSize}`;
-    this.setState({ loading: true });
-    //fetching data from url 
-    let data = await fetch(url);
-    //converting data into json data
-    let parseData = await data.json();
-    console.log(parseData);
-    //setting state ,setting articles
-    this.setState({
-      articles: parseData.articles,
-      totalResults: parseData.totalResults,
-      loading: false
-    });
+    // console.log("Inside componentDidMount.");
+    // let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=a1948327a12b4813a181ce04818350d0&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+    // this.setState({ loading: true });
+    // //fetching data from url 
+    // let data = await fetch(url);
+    // //converting data into json data
+    // let parseData = await data.json();
+    // console.log(parseData);
+    // //setting state ,setting articles
+    // this.setState({
+    //   articles: parseData.articles,
+    //   totalResults: parseData.totalResults,
+    //   loading: false
+    // });
+    this.updateNews();
   }
   //Previous button onClick function
   handlePrevClick = async () => {
