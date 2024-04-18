@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import NewsItem from './NewsItem'
 import Spinner from './Spinner';
 import PropTypes from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 export default class News extends Component {
   //constructor
@@ -269,21 +270,47 @@ export default class News extends Component {
     pageSize: PropTypes.number
   };
 
-  constructor() {
-    super();
+  //function for capitalize the first letter of title
+  capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  constructor(props) {
+    super(props);
     console.log("inside constructor from news component");
     this.state = {
       // articles: this.articles  <-- in place of this.article from above commented article =[] we can use empty article for passing live api data
       articles: [],
       loading: false,
       page: 1,
+      totalResults: 0
     }
+    document.title = `${this.capitalizeFirstLetter(this.props.category)} - NewsApp`
+  }
+  //adding new function for the removing duplication of the code
+
+  async updateNews() {
+    console.log("Inside updatenews function.");
+    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=a1948327a12b4813a181ce04818350d0&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+    this.setState({ loading: true });
+    //fetching data from url 
+    let data = await fetch(url);
+    //converting data into json data
+    let parseData = await data.json();
+    console.log(parseData);
+    //setting state ,setting articles
+    this.setState({
+      articles: parseData.articles,
+      totalResults: parseData.totalResults,
+      loading: false
+    });
+
   }
 
   // componentDidMount
   async componentDidMount() {
     console.log("Inside componentDidMount.");
-    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=a1948327a12b4813a181ce04818350d0&page=1&pageSize=${this.props.pageSize}`;
+    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=a1948327a12b4813a181ce04818350d0&page=${this.state.page}&pageSize=${this.props.pageSize}`;
     this.setState({ loading: true });
     //fetching data from url 
     let data = await fetch(url);
@@ -299,65 +326,94 @@ export default class News extends Component {
   }
   //Previous button onClick function
   handlePrevClick = async () => {
-    console.log("previous click")
+    // console.log("previous click")
 
-    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=a1948327a12b4813a181ce04818350d0&page=1&pageSize=${this.props.pageSize}`;
-    this.setState({ loading: true });
-    let data = await fetch(url);
-    let parseData = await data.json();
-    this.setState({
-      page: this.state.page - 1,
-      articles: parseData.articles,
-      loading: false
-    })
+    // let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=a1948327a12b4813a181ce04818350d0&page=1&pageSize=${this.props.pageSize}`;
+    // this.setState({ loading: true });
+    // let data = await fetch(url);
+    // let parseData = await data.json();
+    // this.setState({
+    //   page: this.state.page - 1,
+    //   articles: parseData.articles,
+    //   loading: false
+    // })
+    await this.setState({ page: this.state.page - 1 });
+    this.updateNews();
 
   };
   //Next button onClick function
   handleNextClick = async () => {
-    console.log("Next click")
+    // console.log("Next click")
 
-    if (!(this.state.page + 1 > Math.ceil(this.state.totalResults / 20))) {
-      let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=a1948327a12b4813a181ce04818350d0&page=1&pageSize=${this.props.pageSize}`;
-      this.setState({ loading: true });
-      let data = await fetch(url);
-      let parseData = await data.json();
-      this.setState({
-        page: this.state.page + 1,
-        articles: parseData.articles,
-        loading: false
-      })
+    // if (!(this.state.page + 1 > Math.ceil(this.state.totalResults / 20))) {
+    //   let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=a1948327a12b4813a181ce04818350d0&page=1&pageSize=${this.props.pageSize}`;
+    //   this.setState({ loading: true });
+    //   let data = await fetch(url);
+    //   let parseData = await data.json();
+    //   this.setState({
+    //     page: this.state.page + 1,
+    //     articles: parseData.articles,
+    //     loading: false
+    //   })
 
-    }
+    // }
+
+    await this.setState({ page: this.state.page + 1 });
+    this.updateNews();
   };
+
+  fetchMoreData = async () => {
+    this.setState({ page: this.state.page + 1 });
+    console.log("Inside updatenews function.");
+    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=a1948327a12b4813a181ce04818350d0&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+    // this.setState({ loading: true });
+    //fetching data from url 
+    let data = await fetch(url);
+    //converting data into json data
+    let parseData = await data.json();
+    console.log(parseData);
+    //setting state ,setting articles
+    this.setState({
+      articles: this.state.articles.concat(parseData.articles),
+      totalResults: parseData.totalResults,
+      loading: false
+    });
+  }
 
 
 
   render() {
     return (
-      <div className='container my-4 ' style={{ paddingLeft: '60px' }}>
-        <h2 className='text-center'>News App : Top Headlines</h2>
+      <div className='container' style={{ padding: '0px 0px 0px 65px' }}>
+        <h2 className='text-center' style={{ margin: '30px 0px' }}>News App : Top {this.capitalizeFirstLetter(this.props.category)}  Headlines</h2>
         {this.state.loading && <Spinner />}
-        <div className='row'>
-          {!this.state.loading && this.state.articles.map((element) => {
-            return (
-              <div className='col-md-4 mb-2' key={element.url}>
-                <NewsItem
-                  title={element.title ? element.title.slice(0, 40) : ""}
-                  description={element.description ? element.description.slice(0, 80) : ""}
-                  ImageUrl={element.urlToImage}
-                  newsUrl={element?.url}
-                  author={element.author}
-                  date={element.publishedAt}
-                  source={element.source.name} />
-              </div>
-            )
-          })}
+        <InfiniteScroll
+          dataLength={this.state.articles.length}
+          next={this.fetchMoreData}
+          hasMore={this.state.articles.length !== this.totalResults}
+          loader={<Spinner />}
+        >
+          <div className='container pt-2'>
+            <div className='row'>
+              {this.state.articles.map((element) => {
+                return (
+                  <div className='col-md-4 mb-2' key={element.url}>
+                    <NewsItem
+                      title={element.title ? element.title.slice(0, 40) : ""}
+                      description={element.description ? element.description.slice(0, 80) : ""}
+                      ImageUrl={element.urlToImage}
+                      newsUrl={element?.url}
+                      author={element.author}
+                      date={element.publishedAt}
+                      source={element.source.name} />
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        </InfiniteScroll>
 
-        </div>
-        <div className='d-flex justify-content-between my-4'>
-          <button disabled={this.state.page <= 1} type="button" className="btn btn-secondary" onClick={this.handlePrevClick}>&larr; Previous </button>
-          <button type="button" className="btn btn-secondary" onClick={this.handleNextClick}>Next &rarr;</button>
-        </div>
+
       </div>
 
     )
