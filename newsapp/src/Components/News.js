@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import NewsItem from "./NewsItem";
 import Spinner from "./Spinner";
-import PropTypes from "react";
+import PropTypes from 'prop-types';
 import InfiniteScroll from "react-infinite-scroll-component";
 
 const News = (props) => {
@@ -10,7 +10,6 @@ const News = (props) => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
-  // document.title = `${capitalizeFirstLetter(props.category)} - NewsApp`
 
   //function for capitalize the first letter of title
   const capitalizeFirstLetter = (string) => {
@@ -40,25 +39,28 @@ const News = (props) => {
 
   // Instead of componentDidMount we used useEffect
   useEffect(() => {
+    document.title = `${capitalizeFirstLetter(props.category)} - NewsApp`
     updateNews();
   }, []);
 
   //Previous button onClick function
-  const handlePrevClick = async () => {
-    setPage(page - 1);
-    updateNews();
-  };
+  // const handlePrevClick = async () => {
+  //   setPage(page - 1);
+  //   updateNews();
+  // };
 
   //Next button onClick function
-  const handleNextClick = async () => {
-    setPage(page + 1);
-    updateNews();
-  };
+  // const handleNextClick = async () => {
+  //   setPage(page + 1);
+  //   updateNews();
+  // };
 
   const fetchMoreData = async () => {
-    setPage(page + 1);
     console.log("Inside updatenews function.");
-    let url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
+    let url = `https://newsapi.org/v2/top-headlines?country=${props.country
+      }&category=${props.category}&apiKey=${props.apiKey}&page=${page + 1
+      }&pageSize=${props.pageSize}`;
+    setPage(page + 1);
     //fetching data from url
     let data = await fetch(url);
     //converting data into json data
@@ -67,15 +69,18 @@ const News = (props) => {
     //setting state ,setting articles
     setArticles(articles.concat(parseData.articles));
     setTotalResults(parseData.totalResults);
-    setLoading(false);
+    setLoading(true);
   };
 
   return (
     <div className="container" style={{ padding: "0px 0px 0px 65px" }}>
-      <h2 className="text-center" style={{ margin: "30px 0px" }}>
+      <h2
+        className="text-center"
+        style={{ marginTop: "70px", marginBottom: "20px" }}
+      >
         News App : Top {capitalizeFirstLetter(props.category)} Headlines
       </h2>
-      {loading && <Spinner />}
+      {/* {loading && <Spinner />} */}
       <InfiniteScroll
         dataLength={articles.length}
         next={fetchMoreData}

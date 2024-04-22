@@ -6,7 +6,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoadingBar from 'react-top-loading-bar'
 
 const App = () => {
-  const apiKey = process.env.REACT_APP_API_KEY;
+  const apiKey = process.env.REACT_APP_API_KEY2;
+  // let pageSize = 6;
   const [progress, setProgress] = useState(0);
 
   let updateProgress = (progress) => {
@@ -18,8 +19,8 @@ const App = () => {
       <BrowserRouter>
         <Navbar />
         <LoadingBar
-          height={3}
-          color='#f11946'
+          height={4}
+          color='#1f1ce6'
           progress={progress}
         />
         <Routes>
